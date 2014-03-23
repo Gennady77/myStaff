@@ -1,1 +1,6 @@
-.scss
+*.scss
+*.sass
+.mwmc
+/css/dependences
+/css/.sass-cache
+/css/*.json

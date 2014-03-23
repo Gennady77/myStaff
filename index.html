@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+        <link rel="stylesheet" href="./css/cssA.css" />
+        
+        <script type="text/javascript" src="js/base.js"></script>
+    </head>
+    <body>
+        <div class="widget">
+            <div id="viewer" class="container" data-index="4">
+                <div class="img-1 left-4"></div>
+                <div class="img-2 left-3"></div>
+                <div class="img-3 left-2"></div>
+                <div class="img-4 left-1"></div>
+                <div class="img-5 cursor"></div>
+                <div class="img-6 right-1"></div>
+                <div class="img-7 right-2"></div>
+                <div class="img-8 right-3"></div>
+                <div class="img-9 right-4"></div>
+            </div>
+            <button id="toLeft"><<</button>
+            <button id="toRight">>></button>
+        </div>
+        
+        <script type="text/javascript">
+            var viewerNode = document.getElementById('viewer');
+            var leftBtn = document.getElementById('toLeft'), rightBtn = document.getElementById('toRight'),
+                viewer = document.getElementById('viewer');
+            
+            viewer.addEventListener('click', function(e) {
+                for(var i=0; i<viewerNode.children.length; i++) {
+                    if(e.target == viewerNode.children[i]) {
+                        viewerNode.dataset.index = i;
+                        reOrder(i);
+                        break;
+                    }
+                }
+            });
+            
+            leftBtn.addEventListener('click', function() {
+                var ind = parseInt(viewerNode.dataset.index);
+                if(ind >= viewerNode.children.length-1) return;
+                ind += 1;
+                viewerNode.dataset.index = ind;
+                reOrder(viewerNode.dataset.index);
+            });
+            rightBtn.addEventListener('click', function() {
+                var ind = parseInt(viewerNode.dataset.index);
+                if(ind <= 0) return;
+                ind -= 1;
+                viewerNode.dataset.index = ind;
+                reOrder(viewerNode.dataset.index);
+            });
+            
+            function reOrder(index) {
+                for(var i=0; i<viewerNode.children.length; i++) {
+                    var cN = viewerNode.children[i].className, sI;
+                    
+                    for(var j = 1; j<=9; j++) {
+                        cN = cN.replace('left-' + j, '');
+                        cN = cN.replace('right-' + j, '');
+                        cN = cN.replace('cursor', '');
+                    }
+                    
+                    if(i<index) cN += ' left-' + (index-i);
+                    if(i==index) cN += ' cursor';
+                    if(i>index) cN += ' right-' + (i-index);
+                    
+                    cN = cN.replace(/\s+/gi, ' ');
+                    
+                    viewerNode.children[i].className = cN;
+                }
+            }
+        </script>
+    </body>
+</html>
